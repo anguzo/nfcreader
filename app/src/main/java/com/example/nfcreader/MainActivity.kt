@@ -6,15 +6,12 @@ import android.nfc.NdefMessage
 import android.nfc.NdefRecord
 import android.nfc.NfcAdapter
 import android.nfc.Tag
-import android.nfc.tech.MifareClassic
-import android.nfc.tech.MifareUltralight
 import android.os.Bundle
-import android.os.Parcelable
-import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.nfcreader.parser.NdefMessageParser.parse
+import com.example.nfcreader.parser.ParsedNdefRecord
 
 
 class MainActivity : AppCompatActivity() {
@@ -59,12 +56,12 @@ class MainActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         val tag: Tag? = intent!!.getParcelableExtra(NfcAdapter.EXTRA_TAG) as Tag?
         Toast.makeText(this, tag.toString(), Toast.LENGTH_LONG).show()
-        val msgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
-        val nmsgs = arrayOfNulls<NdefMessage>(
-            msgs!!.size
+        val msgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES) as Array<NdefMessage>
+        val nmsgs = arrayOfNulls<List<ParsedNdefRecord>>(
+            msgs.size
         )
         for (i in msgs.indices) {
-            nmsgs[i] = msgs[i] as NdefMessage
+            nmsgs[i] = parse(msgs[i])
             Log.println(Log.DEBUG, "NdefMessage", nmsgs[i].toString())
         }
     }
