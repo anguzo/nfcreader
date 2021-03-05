@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         val tag: Tag? = intent!!.getParcelableExtra(NfcAdapter.EXTRA_TAG) as Tag?
         Toast.makeText(this, tag.toString(), Toast.LENGTH_LONG).show()
         val msgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
+        Log.println(Log.DEBUG, "NdefMessage", msgs?.size.toString())
         val nmsgs = arrayOfNulls<NdefMessage>(
             msgs!!.size
         )
@@ -64,7 +65,10 @@ class MainActivity : AppCompatActivity() {
             nmsgs[i] = msgs[i] as NdefMessage
         }
         for (nm in nmsgs) {
-            Log.println(Log.DEBUG, "NdefMessage", parse(nm!!).toString())
+            val parsed = parse(nm!!)
+            for (i in parsed) {
+                Log.println(Log.DEBUG, "NdefMessage", i.str())
+            }
         }
     }
 }

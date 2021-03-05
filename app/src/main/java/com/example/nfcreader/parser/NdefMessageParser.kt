@@ -16,8 +16,8 @@ object NdefMessageParser {
                 elements.add(UriRecord.parse(record))
             } else if (TextRecord.isText(record)) {
                 elements.add(TextRecord.parse(record))
-//            } else if (SmartPoster.isPoster(record)) {
-//                elements.add(SmartPoster.parse(record))
+            } else if (SmartPoster.isPoster(record)) {
+                elements.add(SmartPoster.parse(record))
             } else {
                 elements.add(object : ParsedNdefRecord {
                     override fun str(): String {
