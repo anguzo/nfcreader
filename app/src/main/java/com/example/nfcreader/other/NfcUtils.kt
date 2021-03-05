@@ -43,7 +43,7 @@ fun getTagType(msg: NdefMessage?): NFCType? {
  * Bit_6 is currently always 0 (reserved for future use)
  * Bits 5 to 0 are the length of the IANA language code.
  */
-fun getText(payload: ByteArray?): String? {
+fun getText(payload: ByteArray): String? {
     if (payload == null) return null
     try {
         val textEncoding = if ((payload[0] and 128.toByte()).toInt() == 0) "UTF-8" else "UTF-16"
@@ -107,3 +107,4 @@ fun convertUriPrefix(prefix: Byte): String? {
         else -> return null
     }
 }
+
